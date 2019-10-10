@@ -1,0 +1,202 @@
+\documentclass[10pt,letterpaper]{article}
+
+\usepackage{amsmath}
+
+\usepackage[T1]{fontenc} 
+\usepackage[utf8x]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}% Include figure files
+
+\usepackage{fancyvrb,xcolor}
+\usepackage{upquote,textcomp}
+
+%%% Margins
+\oddsidemargin=-0.54cm
+\textwidth=17.6cm
+\topmargin=-2.54cm
+\headheight=0cm
+\headsep=2cm
+\textheight=23.8cm
+
+\makeatletter
+\renewcommand\section{\@startsection{section}{1}{-15pt}{20pt}{10pt}{\textsc}}
+\makeatother
+
+\makeatletter
+\renewcommand\subsection{\@startsection{subsection}{2}{0pt}{0pt}{0pt}{\textit}}
+\makeatother
+
+\usepackage{hyperref} % for urls
+
+
+% Default fixed font does not support bold face
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{8} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{8}  % for normal
+
+% Custom colors
+\usepackage{color}
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+\definecolor{deepgray}{rgb}{0.5,0.5,0.5}
+
+\usepackage{listings}
+
+\lstdefinestyle{myCustomPythonStyle}{
+	language=Python,
+	basicstyle=\linespread{1}\small,
+	otherkeywords={self},             % Add keywords here
+	keywordstyle=\ttb\color{deepblue},
+	emph={MyClass,__init__},          % Custom highlighting
+	emphstyle=\ttm\color{deepred},    % Custom highlighting style
+	commentstyle=\ttm\color{deepgray},
+	stringstyle=\color{deepgreen},
+	frame=tb,                         % Any extra options here
+	showstringspaces=false,
+	columns=fullflexible,
+	keepspaces=true,
+	literate={-}{-}1,				% To avoid problems with hyphen -
+}
+
+
+
+\makeatletter 
+  \renewcommand\verbatim@font{\normalfont\ttfamily\color{blue}}
+\makeatother
+
+
+\begin{document}
+% To fix ' no curve quotation mark
+\newcommand\upquote[1]{\textquotesingle#1\textquotesingle}
+
+
+
+\begin{tabular}{p{1.3in}p{6in}}
+\begin{flushleft}
+\noindent \includegraphics[bb = 2.5cm 0cm 10.29cm 9.78cm,scale=0.2]{escudoUnicacuaSolo.eps}
+\end{flushleft} &
+\normalsize \vspace{0.6cm}
+\textsc{Universidad del Cauca}
+
+\textsc{Facultad de Ingeniería Electrónica y Telecomunicaciones}
+
+%\textsc{Maestría en Ingeniería Telemática}
+\textsc{Programa de Ingeniería Electrónica y Telecomunicaciones}
+
+\textsc{Desarrollo de aplicaciones para plataformas ubicuas}
+
+\end{tabular}
+\begin{tabbing}
+\hspace{3cm} \= \hspace{5.3cm} \= \hspace{6cm} \kill
+\textbf{Docente}: \> Juan Pablo Ruiz Rosero			\> \texttt{jpabloruiz@unicauca.edu.co} \\
+\end{tabbing}
+
+\begin{center}
+%\textbf{5. Bluetooth Low Energy}
+\textbf{5. Bluetooth Low Energy y pybluez}
+\end{center}
+Bluetooth Low Energy (BLE) es una tecnología de comunicación inalámbrica diseñada para pequeños dispositivos de bajo consumo, basada en Bluetooth. Bluez es un stack Bluetooth para sistemas operativos basados en el kernel de Linux. Pybluez es un modulo Python que permite el acceso a recursos Bluetooth. 
+
+\begin{enumerate}
+
+\item Instale los siguientes paquetes en Ubuntu:
+
+\begin{verbatim}
+sudo apt install bluetooth libbluetooth-dev python-pip
+sudo apt install pkg-config libboost-python-dev libboost-thread-dev libglib2.0-dev python-dev
+\end{verbatim}
+
+
+\item Instale en python los módulos pybluez y gattlib
+\begin{verbatim}
+sudo pip install pybluez
+sudo pip install gattlib
+\end{verbatim}
+
+\item Cree la carpeta guia6 y copie en ella los archivos adjuntos:
+\begin{itemize}
+\item globals.py
+\item dbFunctions.py
+\item Beacon.py
+\end{itemize}
+
+
+\item Cree y ejecute el archivo bleScan.py, con el cual puede escanear los dispositivos BLE cercanos. 
+\begin{lstlisting}[style=myCustomPythonStyle]
+from bluetooth.ble import DiscoveryService
+
+service = DiscoveryService()
+devices = service.discover(2)   # Scan for 2 seconds
+
+for address, name in devices.items():
+    print("name: {}, address: {}".format(name, address))
+\end{lstlisting}
+
+\item Modifique y ejecute el archivo bleScan.py con diferentes tiempos de escaneo (1 seg, 2 seg, 5 seg, 10 seg). Observe con que tiempos puede escanear más dispositivos. 
+
+\item Cree y ejecute con sudo python el archivo beaconScan.py, el cual permita escanear dispositivos BLE los cuales tengan el servicio tipo beacon. Utilice la clase Beacon adjunta en la librería Beacon.py para imprimir los datos del servicio Beacon. 
+\begin{lstlisting}[style=myCustomPythonStyle]
+from bluetooth.ble import BeaconService
+import Beacon
+
+service = BeaconService()
+devices = service.scan(3)
+
+for address, data in list(devices.items()):
+    b = Beacon.Beacon(data, address)
+    print(b)
+\end{lstlisting}
+
+\item Haciendo uso de la librería dbFunctions.py, cree un archivo denominado bleScanService.py que escanee beacons BLE y almacene la información del escaneo en una base de datos. 
+
+\begin{lstlisting}[style=myCustomPythonStyle]
+from bluetooth.ble import BeaconService
+import dbFunctions
+import Beacon
+import time
+
+DISCOVER_TIME = 3  # In seconds, scan interval duration.
+
+service = BeaconService()   # Start the service object as beacon service
+dbFunctions.createTable()   # If not exist, create the table sensors
+
+while True:
+
+    devices = service.scan(DISCOVER_TIME)   # Scan the devices inside the beacon service
+
+    for address, data in list(devices.items()): # Run for loop for the scanned beacons
+        b = Beacon.Beacon(data, address)    # Create the object b from class Beacon
+        print(b)
+
+        sensor = {}                      # Initialize the dictonary sensor
+        sensor["date"] = time.time()     # Add current time
+        sensor["address"] = b._address   # Add beacon address
+        sensor["rssi"] = b._rssi         # Add beacon signal level rssi
+
+        dbFunctions.insertSensorEvent(sensor)   # Insert sensor event to database
+\end{lstlisting}
+
+
+\item Cree un archivo analyzeEvents.py mediante el cual se genere un reporte en un archivo csv con las siguientes características:
+
+\begin{itemize}
+\item Una fila por sensor, no por evento.
+\item Una columna con la dirección del sensor: \textbf{Sensor address}
+\item Una columna con la fecha y hora de la primera detección: \textbf{First detected date}
+\item Una columna con la fecha y hora de la última detección: \textbf{Last detected date}
+\item Una columna con la fecha y hora de la detección con mayor RSSI: \textbf{Max RSSI date}
+\end{itemize}
+
+Utilice la siguiente tabla como ejemplo: 
+
+\begin{center}
+\begin{tabular}{|l|l|l|l|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Sensor address}} & \multicolumn{1}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}First detected \\ date\end{tabular}}} & \multicolumn{1}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}Last detected \\ date\end{tabular}}} & \multicolumn{1}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}Max RSSI \\ date\end{tabular}}} \\ \hline
+DD:EE:CC:74:3B:DA & 2017/09/11, 16:00:36 & 2017/09/11, 16:30:52 & 2017/09/11, 16:10:15 \\ \hline
+C5:F8:14:9F:25:D2 & 2017/09/11, 16:02:05 & 2017/09/11, 15:00:22 & 2017/09/11, 16:52:54 \\ \hline
+\end{tabular}
+\end{center}
+
+\end{enumerate}
+\end{document} 

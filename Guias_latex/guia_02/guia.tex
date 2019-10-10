@@ -1,0 +1,133 @@
+\documentclass[10pt,letterpaper]{article}
+
+\usepackage{amsmath}
+
+\usepackage[T1]{fontenc} 
+\usepackage[utf8x]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}% Include figure files
+
+%%% Margins
+\oddsidemargin=-0.54cm
+\textwidth=17.6cm
+\topmargin=-2.54cm
+\headheight=0cm
+\headsep=2cm
+\textheight=23.8cm
+
+\usepackage{fancyvrb,xcolor}
+
+
+\makeatletter
+\renewcommand\section{\@startsection{section}{1}{-15pt}{20pt}{10pt}{\textsc}}
+\makeatother
+
+\makeatletter
+\renewcommand\subsection{\@startsection{subsection}{2}{0pt}{0pt}{0pt}{\textit}}
+\makeatother
+
+\makeatletter 
+\renewcommand\verbatim@font{\normalfont\ttfamily\color{blue}}
+\makeatother
+
+\begin{document}
+
+\begin{tabular}{p{1.3in}p{6in}}
+\begin{flushleft}
+\noindent \includegraphics[bb = 2.5cm 0cm 10.29cm 9.78cm,scale=0.2]{escudoUnicacuaSolo.eps}
+\end{flushleft} &
+\normalsize \vspace{0.6cm}
+\textsc{Universidad del Cauca}
+
+\textsc{Facultad de Ingeniería Electrónica y Telecomunicaciones}
+
+%\textsc{Maestría en Ingeniería Telemática}
+\textsc{Programa de Ingeniería Electrónica y Telecomunicaciones}
+
+\textsc{Desarrollo de aplicaciones para plataformas ubicuas}
+
+\end{tabular}
+\begin{tabbing}
+\hspace{3cm} \= \hspace{5.3cm} \= \hspace{6cm} \kill
+\textbf{Docente}: \> Juan Pablo Ruiz Rosero			\> \texttt{jpabloruiz@unicauca.edu.co} \\
+\end{tabbing}
+
+\begin{center}
+%\textbf{2. Estructuras de datos en alto nivel.}
+\textbf{2. Diccionarios en Python}
+\end{center}
+
+Python ofrece un tipo de dato llamado diccionario para almacenar de manera sencilla y eficiente estructuras de datos en alto nivel. Un Diccionario es una estructura de datos y un tipo de dato en Python con características especiales que nos permite almacenar cualquier tipo de valor como enteros, cadenas, listas e incluso otras funciones. Estos diccionarios nos permiten además identificar cada elemento por una clave (Key).
+
+\begin{enumerate}
+\item En la consola python defina un diccionario de la siguiente manera: 
+\begin{verbatim}
+d1 = {"nombre" : "Pedro", "edad" : 22, "cursos": ["Python","C++","Java"] }
+\end{verbatim}
+
+\item Imprima el nombre y los cursos almacenados en el diccionario d1
+\begin{verbatim}
+print(d1["nombre"])
+print(d2["cursos"])
+\end{verbatim}
+
+\item Cree una lista de diccionarios que contenga el nombre, la edad y los cursos que han tomado cuatro de sus compañeros, guarde este script en el archivo guia02a.py, ejemplo: 
+\begin{verbatim}
+studentsList = []
+
+studentIn = {"nombre" : "Juan", "edad" : 19, "cursos": ["Basic"] }
+studentsList.append(studentIn)
+studentIn = {"nombre" : "Marcos", "edad" : 20, "cursos": ["Turbo C","Pascal"] }
+studentsList.append(studentIn)
+\end{verbatim}
+
+
+\item En el archivo guia02a.py, añada al final un ciclo for que imprima el nombre, la edad y los cursos de cada uno de los objetos de la lista studentsList.
+
+\item En el archivo guia02a.py, añada la librería csv (\verb|import csv|) para exportar los datos a un archivo de texto separado por comas (csv). Agregue al final del guia02a.py las siguientes lineas para generar el archivo de salida csv
+\begin{verbatim}
+with open("outputFile.csv", "wb") as f:
+  w = csv.DictWriter(f, studentsList[0].keys())
+  w.writeheader()
+  for student in studentsList:
+    w.writerow(student))
+\end{verbatim}
+
+\item Con base al archivo test3.py de la guía anterior, cree un nuevo archivo guia02b.py, en el cual el script pida los siguientes datos a cada usuario para guardarlos en una lista de diccionarios: 
+\begin{itemize}
+\item Nombres
+\item Apellidos
+\item Edad
+\end{itemize}
+
+Añada al diccionario el campo tiempoDeRegistro, donde se añada autómaticamente la fecha y la hora del registro del usuario. Al ingresar el usuario con el nombre Fin, termine el registro de usuarios y guarde la lista de diccionarios en el archivo usuarios.csv
+
+
+\item Cree un archivo nuevo guia02c.py, el cual abra los datos del archivo outputFile.csv en el diccionario studentsList y los imprima en la consola mediante un ciclo for.
+\begin{verbatim}
+import csv
+
+input_file = csv.DictReader(open("outputFile.csv"))
+
+studentsList = []
+for row in input_file:
+  studentsList.append(row)
+
+# Agruegue el for loop para imprimir datos  
+\end{verbatim}
+
+\item Con base al archivo guia02b.py cree el archivo guia02d.py, el cual registre usuarios, los guarde en el archivo outputFile.csv pero conserve los registros almacenados anteriormente. 
+
+\item Modifique el archivo guia02d.py de tal modo que no permita introducir usuarios duplicados (que contengan el mismo nombre y apellido).
+
+
+
+
+
+
+\end{enumerate}
+
+
+
+
+\end{document} 

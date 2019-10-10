@@ -1,0 +1,3 @@
+import dbFunctions
+
+dbFunctions.createTable()

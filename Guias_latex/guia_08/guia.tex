@@ -1,0 +1,140 @@
+\documentclass[10pt,letterpaper]{article}
+
+\usepackage{amsmath}
+
+\usepackage[T1]{fontenc} 
+\usepackage[utf8x]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}% Include figure files
+
+\usepackage{fancyvrb,xcolor}
+\usepackage{upquote,textcomp}
+
+%%% Margins
+\oddsidemargin=-0.54cm
+\textwidth=17.6cm
+\topmargin=-2.54cm
+\headheight=0cm
+\headsep=2cm
+\textheight=23.8cm
+
+\makeatletter
+\renewcommand\section{\@startsection{section}{1}{-15pt}{20pt}{10pt}{\textsc}}
+\makeatother
+
+\makeatletter
+\renewcommand\subsection{\@startsection{subsection}{2}{0pt}{0pt}{0pt}{\textit}}
+\makeatother
+
+\usepackage{hyperref} % for urls
+
+
+% Default fixed font does not support bold face
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{8} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{8}  % for normal
+
+% Custom colors
+\usepackage{color}
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+\definecolor{deepgray}{rgb}{0.5,0.5,0.5}
+
+\usepackage{listings}
+
+\lstdefinestyle{myCustomPythonStyle}{
+	language=Python,
+	basicstyle=\linespread{1}\small,
+	otherkeywords={self},             % Add keywords here
+	keywordstyle=\ttb\color{deepblue},
+	emph={MyClass,__init__},          % Custom highlighting
+	emphstyle=\ttm\color{deepred},    % Custom highlighting style
+	commentstyle=\ttm\color{deepgray},
+	stringstyle=\color{deepgreen},
+	frame=tb,                         % Any extra options here
+	showstringspaces=false,
+	columns=fullflexible,
+	keepspaces=true,
+	literate={-}{-}1,				% To avoid problems with hyphen -
+}
+
+
+
+\makeatletter 
+  \renewcommand\verbatim@font{\normalfont\ttfamily\color{blue}}
+\makeatother
+
+
+\begin{document}
+% To fix ' no curve quotation mark
+\newcommand\upquote[1]{\textquotesingle#1\textquotesingle}
+
+
+
+\begin{tabular}{p{1.3in}p{6in}}
+\begin{flushleft}
+\noindent \includegraphics[bb = 2.5cm 0cm 10.29cm 9.78cm,scale=0.2]{escudoUnicacuaSolo.eps}
+\end{flushleft} &
+\normalsize \vspace{0.6cm}
+\textsc{Universidad del Cauca}
+
+\textsc{Facultad de Ingeniería Electrónica y Telecomunicaciones}
+
+%\textsc{Maestría en Ingeniería Telemática}
+\textsc{Programa de Ingeniería Electrónica y Telecomunicaciones}
+
+\textsc{Desarrollo de aplicaciones para plataformas ubicuas}
+
+\end{tabular}
+\begin{tabbing}
+\hspace{3cm} \= \hspace{5.3cm} \= \hspace{6cm} \kill
+\textbf{Docente}: \> Juan Pablo Ruiz Rosero			\> \texttt{jpabloruiz@unicauca.edu.co} \\
+\end{tabbing}
+
+\begin{center}
+\textbf{8. Gestion de buses por beacons Bluetooth}
+\end{center}
+\section{Objetivo}
+Esta guía tiene como objetivo el desarrollo de una aplicación web y un servicio capaz de trazar la ruta de un bus por diferentes estaciones. 
+
+\section{Descripción}
+Suponga que quiere trazar la ruta de un bus, el cual cuenta con un computador portátil capaz de escanear beacons Bluetooth. El bus debe pasar por 4 estaciones equidistantes, separadas 1Km cada una, donde cada estación tiene un beacon Bluetooth. 
+
+\section{Entradas}
+\begin{itemize}
+\item Un archivo csv denominado \verb|beaconsStations.csv|, el cual contiene la dirección MAC de los beacons relacionada con el nombre de la ruta, y el orden de paso.
+\begin{center}
+\begin{tabular}{|l|l|c|}
+\hline
+\textbf{BeaconMAC} & \textbf{Station} & \textbf{Order} \\ \hline
+C5:F8:14:9F:25:D2  & Piedra sur  & 1   \\ \hline
+DD:EE:CC:74:3B:DA  & INEM    & 2  \\ \hline
+D4:5B:96:45:BA:02  & Carantanta  & 3   \\ \hline
+DC:82:79:2A:C1:AB  & Campanario  & 4  \\ \hline
+\end{tabular}
+
+\end{center}
+\item Servicio de escaneo de beacons BLE en intervalos de 5 segundos, el cual registre solo el beacon con mayor RSSI, y RSSI mayor a -60dBm.
+\end{itemize}
+
+\section{Salidas}
+\begin{itemize}
+\item Una base de datos denominada \verb|stops.db3| en donde se registre la fecha y hora de llegada del bus a cada estación.\\
+
+\item Una aplicación web con los siguientes servicios:
+\begin{itemize}
+\item Consulta de la fecha y hora de todas las paradas mediante la dirección web \url{http://127.0.0.1:5000}
+\item Consulta de todas las paradas de un día determinado mediante la url\\ \url{http://127.0.0.1:5000/date/2017_09_13}\\
+Nota: formato de fecha año\_mes\_día
+\item Consulta del la última parada mediante la url\\ \url{http://127.0.0.1:5000/lastStop}\\
+\item Consulta del la velocidad actual estimada del bus\\ \url{http://127.0.0.1:5000/speed}\\
+\item Consulta de la siguiente parada y minutos estimados para la llegada mediante la url  \\ \url{http://127.0.0.1:5000/nextStop}\\
+\end{itemize}
+
+\end{itemize}
+
+
+
+
+
+\end{document} 

@@ -1,0 +1,10 @@
+  <head>
+    <title>{{ dataPage.title }} - microblog</title>
+  </head>
+  <body>
+      <h1>Datos de usuario:</h1>
+      <p>Nombre: {{ dataPage.nombre }}</p>
+      <p>Apellidos: {{ dataPage.apellidos }}</p>
+      <p>Edad: {{ dataPage.edad }}</p>
+  </body>
+</html>

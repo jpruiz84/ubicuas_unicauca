@@ -1,0 +1,139 @@
+\documentclass[10pt,letterpaper]{article}
+
+\usepackage{amsmath}
+
+\usepackage[T1]{fontenc} 
+\usepackage[utf8x]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}% Include figure files
+
+%%% Margins
+\oddsidemargin=-0.54cm
+\textwidth=17.6cm
+\topmargin=-2.54cm
+\headheight=0cm
+\headsep=2cm
+\textheight=23.8cm
+
+\makeatletter
+\renewcommand\section{\@startsection{section}{1}{-15pt}{20pt}{10pt}{\textsc}}
+\makeatother
+
+\makeatletter
+\renewcommand\subsection{\@startsection{subsection}{2}{0pt}{0pt}{0pt}{\textit}}
+\makeatother
+
+
+\begin{document}
+
+\begin{tabular}{p{1.3in}p{6in}}
+\begin{flushleft}
+\noindent \includegraphics[bb = 2.5cm 0cm 10.29cm 9.78cm,scale=0.2]{escudoUnicacuaSolo.eps}
+\end{flushleft} &
+\normalsize \vspace{0.6cm}
+\textsc{Universidad del Cauca}
+
+\textsc{Facultad de Ingeniería Electrónica y Telecomunicaciones}
+
+%\textsc{Maestría en Ingeniería Telemática}
+\textsc{Programa de Ingeniería Electrónica y Telecomunicaciones}
+
+\textsc{Desarrollo de aplicaciones para plataformas ubicuas}
+
+\end{tabular}
+\begin{tabbing}
+\hspace{3cm} \= \hspace{5.3cm} \= \hspace{6cm} \kill
+\textbf{Docente}: \> Juan Pablo Ruiz Rosero			\> \texttt{jpabloruiz@unicauca.edu.co} \\
+\end{tabbing}
+
+\begin{center}
+%\textbf{1. Lenguaje de programación de alto nivel Python}
+\textbf{1. Introducción a Python}
+\end{center}
+
+\begin{enumerate}
+\item Abra la consola o linea de comandos de su sistema operativo (Widnows: Ctrl+R, cmd, Enter)
+\item Entre a la consola python escribiendo en la linea de comandos:\\
+\verb+python+
+\item Entre a la consola python escribiendo en la linea de comandos:\\
+
+\item Mediante la función print, pruebe la impresión de mensajes de depuración así:\\
+\verb+print("Hola mundo")+
+
+\item Defina una variable con su nombre, para python lo salude:
+\begin{verbatim}
+name = "Juan"
+print("Hola " + name)
+\end{verbatim}
+\begin{itemize}
+\item Las variables en python no se inicializan, solo se definen.
+\item La concatenación de string se hace con el +
+\end{itemize}
+
+\item Escriba un script que salude a un usuario con la fecha y hora:
+\begin{verbatim}
+from datetime import datetime
+print(raw_input("Digite su nombre: ") + " ha entrado a las: " + str(datetime.now()))
+\end{verbatim}
+\begin{itemize}
+\item La inclusión de librerías se realiza mediante import, from especifica que sub librería se requiere importar.
+\item La función \verb+raw_input()+ entrega la linea de texto introducida por el usuario.
+\item La función \verb+datetime.now()+ entrega la fecha y hora en formato datetime, str la convierte a texto.
+\end{itemize}
+
+\item Salga de la consola python con la función quit():\\
+\verb|quit()|
+
+
+\item Cree un archivo llamado guia01a.py, que le informe si usted es mayor o menor de edad:
+\begin{verbatim}
+edad = raw_input("Introduzca su edad: ")
+if int(edad) >= 18:
+  print("Usted es mayor de edad")
+else:
+  print("Usted es menor de edad")
+\end{verbatim}
+\begin{itemize}
+\item Los delimitadores de funciones o secuencias logicas en python son los : y las sangrías (tabulaciones o espacios). 
+\item La función \verb|int()| permite convertir de string a numero entero
+\item Ejecute este script de la siguiente manera: \\
+\verb|python guia01a.py|
+\end{itemize}
+
+\item Cree un archivo llamado guia01b.py, que le calcule su masa corporal.
+
+\item Cree un archivo llamado guia01c.py para llenar una lista de usuarios.
+\begin{verbatim}
+userList = []
+
+while True:
+  user = raw_input("Introduzca el usuario, 'fin' para terminar:")
+  if user == "fin":
+    break
+  userList.append(user)
+
+count = 0
+for user in userList:
+  print(str(count) + ". " + user)
+  count += 1
+\end{verbatim}
+
+\item Agregue el modificador en guia01c.py \verb|.upper()| a los strings, para aceptar el string fin,Fin, o FIN para terminar.
+
+\item En la consola de python, imprima el numero de segundos desde el 1 de Enero de 1970 (Unix time), imprima ese valor en formato de hora local, agregue 1 millon de segundos a ese valor y vuelva a imprimirlo en formato de hora local.
+\begin{verbatim}
+import time
+time1 = time.time()
+print(str(time1))
+print time.strftime("%Z - %Y/%m/%d, %H:%M:%S", time.localtime(time1))
+\end{verbatim}
+
+\item Modifique el programa guia01c.py de tal forma, que se genere una lista \verb|userInputTime| con la fecha en que se introdujo ese usuario. Imprima al final el nombre de cada usuario con su respectiva fecha de ingreso.
+
+\item Modifique el programa guia01c.py de tal forma, que si el usuario introduce un nombre 20 o más segundos más tarde que el último, la lista termine.
+
+
+\end{enumerate}
+
+
+\end{document} 

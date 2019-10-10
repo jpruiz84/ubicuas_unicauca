@@ -1,0 +1,176 @@
+\documentclass[10pt,letterpaper]{article}
+
+\usepackage{amsmath}
+
+\usepackage[T1]{fontenc} 
+\usepackage[utf8x]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}% Include figure files
+
+\usepackage{fancyvrb,xcolor}
+\usepackage{upquote,textcomp}
+
+%%% Margins
+\oddsidemargin=-0.54cm
+\textwidth=17.6cm
+\topmargin=-2.54cm
+\headheight=0cm
+\headsep=2cm
+\textheight=23.8cm
+
+\makeatletter
+\renewcommand\section{\@startsection{section}{1}{-15pt}{20pt}{10pt}{\textsc}}
+\makeatother
+
+\makeatletter
+\renewcommand\subsection{\@startsection{subsection}{2}{0pt}{0pt}{0pt}{\textit}}
+\makeatother
+
+\usepackage{hyperref} % for urls
+
+
+% Default fixed font does not support bold face
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{8} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{8}  % for normal
+
+% Custom colors
+\usepackage{color}
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+\definecolor{deepgray}{rgb}{0.5,0.5,0.5}
+
+\usepackage{listings}
+
+\lstdefinestyle{myCustomPythonStyle}{
+	language=Python,
+	basicstyle=\linespread{1}\small,
+	otherkeywords={self},             % Add keywords here
+	keywordstyle=\ttb\color{deepblue},
+	emph={MyClass,__init__},          % Custom highlighting
+	emphstyle=\ttm\color{deepred},    % Custom highlighting style
+	commentstyle=\ttm\color{deepgray},
+	stringstyle=\color{deepgreen},
+	frame=tb,                         % Any extra options here
+	showstringspaces=false,
+	columns=fullflexible,
+	keepspaces=true,
+	literate={-}{-}1,				% To avoid problems with hyphen -
+}
+
+
+
+\makeatletter 
+  \renewcommand\verbatim@font{\normalfont\ttfamily\color{blue}}
+\makeatother
+
+
+\begin{document}
+% To fix ' no curve quotation mark
+\newcommand\upquote[1]{\textquotesingle#1\textquotesingle}
+
+
+
+\begin{tabular}{p{1.3in}p{6in}}
+\begin{flushleft}
+\noindent \includegraphics[bb = 2.5cm 0cm 10.29cm 9.78cm,scale=0.2]{escudoUnicacuaSolo.eps}
+\end{flushleft} &
+\normalsize \vspace{0.6cm}
+\textsc{Universidad del Cauca}
+
+\textsc{Facultad de Ingeniería Electrónica y Telecomunicaciones}
+
+%\textsc{Maestría en Ingeniería Telemática}
+\textsc{Programa de Ingeniería Electrónica y Telecomunicaciones}
+
+\textsc{Desarrollo de aplicaciones para plataformas ubicuas}
+
+\end{tabular}
+\begin{tabbing}
+\hspace{3cm} \= \hspace{5.3cm} \= \hspace{6cm} \kill
+\textbf{Docente}: \> Juan Pablo Ruiz Rosero			\> \texttt{jpabloruiz@unicauca.edu.co} \\
+\end{tabbing}
+
+\begin{center}
+\textbf{10. Bombilla WiFi por MQTT}
+\end{center}
+\section{Objetivo}
+Esta guía tiene como objetivo el desarrollo de una aplicación para el control de una bombilla WiFi por MQTT.
+
+\section{Descripción}
+Las bombillas WiFi basadas en el microcontrolador ESP8266, como las de las marcas Ai Light o UL Listed, ofrecen grandes ventajas para el desarrollo de aplicaciones Smart Home mediante el protocolo MQTT. Estas bombillas permiten la programación de un custom firmware como ESPurna, el cual expande sus capacidades. 
+
+\section{ESPurna firmware}
+ESPurna, es un custom firmware para dispositivos basados en el microcontrolador WiFI ESP8266. Este usa el core de Arudino framework y varias librerías de terceros para soportar un gran número de dispositivos. Entre sus características se encuentran:
+
+\begin{itemize}
+\item WiFi en modo access point para su configuración.
+\item WiFi en modo estación con la capacidad de conectarse a un access point con DHCP o static IP.
+\item Memoria para definir 5 conexiones a access points WiFi.
+\item MQTT para el manejo de relés, LEDs y estados. 
+\item Integración con Amazon Alexa, Google Assistant, Domoticz e InfluxDB.
+\item Mayor información en: \url{https://bitbucket.org/xoseperez/espurna}
+\end{itemize} 
+
+Las bombillas WiFi destinadas para esta práctica ya cuentan con el firmware ESPurna versión 1.9.5, sin embargo en el siguiente enlace puede encontrar instrucciones para programar este firmware en las bombillas: \\
+\url{https://nathan.chantrell.net/20170527/ai-light-rgbw-led-wi-fi-light-bulbs-with-mqtt-esp8266/}
+
+\section{Configuración de la bombilla WiFi}
+\begin{enumerate}
+\item Si la bombilla WiFi no es capaz de conectarse a uno de los access point previamente configurados en su memoria, esta pasará a modo Access Point, con el SSID: \verb|AI_LIGHT_XXXXXX|, donde XXXXXX son los 3 últimos bytes de su MAC address. 
+
+\item Conéctese al access point \verb|AI_LIGHT_XXXXXX| de su bombilla WiFi. La clave de red es: \verb|fibonacci|. Si la anterior clave no funciona, esto quiere decir que su bombilla ya ha sido configurada previamente, en este caso utilice como clave: \verb|123456Ab|
+
+\item Una vez conectado al access point \verb|AI_LIGHT_XXXXXX|, abra su navegador web e introduzca la dirección: \url{http://192.168.4.1}. Utilice como username: \verb|admin| y como clave la misma que utilizó para conectarse al access point WiFi de la bombilla. 
+
+\item Si la contraseña fue \verb|fibonacci|, se nos pedirá una nueva contraseña. Introducir como nueva contraseña \verb|123456Ab|. Nota (A en mayúscula y b en minúscula). Dar click en Update y luego ingresar con username \verb|admin| y contraseña \verb|123456Ab|.
+
+\item Prueba si la bombilla WiFi funciona mediante la interfaz web, para esto cambien \verb|Switch Status| de OFF a ON y mueva las perillas de los colores RGB.
+
+\item Puede modificar el brillo general de los LEDs RGB con la perilla \verb|Brightness|. Igualmente puede modificar el brillo de los LEDs de luz blanca mediante la perilla \verb|Channel 4|
+
+\item Configure el broker MQTT. Entre a la sección \verb|MQTT| del menu izquierdo, habilite el MQTT modificando \verb|Enable MQTT| de OFF a ON. 
+\item En la opción de \verb|MQTT Broker| introduzca: iot.eclipse.org
+\item Deje el \verb|MQTT Port| en 1883
+\item Deje \verb|MQTT User| y \verb|MQTT Password| en blanco
+\item Cambie \verb|MQTT Root topic| a \verb|/unicauca/light/{identifier}|
+
+
+\item Para conectar su bombilla a Internet, en la parte izquierda acceda al menu \verb|WIFI|, pulse el botón \verb|Add network| e introduzca el \verb|Network SSID| y \verb|Password| de su red inalámbrica, la misma a la que tiene conectado su computador. Pulse el botón \verb|Update| del lado izquierdo para guardar los cambios y luego el botón \verb|Reset| para que la bombilla se reinicie y se conecte a la red WiFi Configurada.
+
+
+\item En su computador, si no lo tiene aun instalado, instale en python el paquete paho-mqtt
+\begin{verbatim}
+sudo pip install paho-mqtt
+\end{verbatim}
+
+\item Cree una carpeta llamada guia10, y en ella un archivo llamado testMqtt.py con el siguiente contenido:
+\begin{lstlisting}[style=myCustomPythonStyle]
+import paho.mqtt.publish as publish
+
+# Turn on the relay
+publish.single("/unicauca/light/AI_LIGHT_2EF984/relay/0/set", "1", hostname="iot.eclipse.org")
+# Set brightness to 255
+publish.single("/unicauca/light/AI_LIGHT_2EF984/brightness/set", "255", hostname="iot.eclipse.org")
+# Set red ligth to the max
+publish.single("/unicauca/light/AI_LIGHT_2EF984/color/set", "255,0,0", hostname="iot.eclipse.org"
+\end{lstlisting}
+Este script enviará una serie de comandos MQTT para activar el relé de la bombilla, colocar el brillo al máximo y activar los LEDs rojos. 
+
+\item Cree una aplicación que cumpla con una de las siguientes características:
+\begin{itemize}
+\item Mediante una interfaz web programar alarmas de encendido y apagado de la bombilla.
+\item Activar diferentes colores de la bombilla mediante la detección de diferentes beacons Bluetooth. 
+\item Informar si tiene un nuevo correo electrónico mediante un color en la bombilla.
+\end{itemize}
+
+
+
+
+\end{enumerate}
+
+
+
+
+
+\end{document} 

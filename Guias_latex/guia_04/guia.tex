@@ -1,0 +1,169 @@
+\documentclass[10pt,letterpaper]{article}
+
+\usepackage{amsmath}
+
+\usepackage[T1]{fontenc} 
+\usepackage[utf8x]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}% Include figure files
+
+\usepackage{fancyvrb,xcolor}
+\usepackage{upquote,textcomp}
+
+%%% Margins
+\oddsidemargin=-0.54cm
+\textwidth=17.6cm
+\topmargin=-2.54cm
+\headheight=0cm
+\headsep=2cm
+\textheight=23.8cm
+
+\makeatletter
+\renewcommand\section{\@startsection{section}{1}{-15pt}{20pt}{10pt}{\textsc}}
+\makeatother
+
+\makeatletter
+\renewcommand\subsection{\@startsection{subsection}{2}{0pt}{0pt}{0pt}{\textit}}
+\makeatother
+
+\usepackage{hyperref} % for urls
+
+% Default fixed font does not support bold face
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{8} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{8}  % for normal
+
+% Custom colors
+\usepackage{color}
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+\definecolor{deepgray}{rgb}{0.5,0.5,0.5}
+
+\usepackage{listings}
+
+\lstdefinestyle{myCustomPythonStyle}{
+	language=Python,
+	basicstyle=\linespread{1}\small,
+	otherkeywords={self},             % Add keywords here
+	keywordstyle=\ttb\color{deepblue},
+	emph={MyClass,__init__},          % Custom highlighting
+	emphstyle=\ttm\color{deepred},    % Custom highlighting style
+	commentstyle=\ttm\color{deepgray},
+	stringstyle=\color{deepgreen},
+	frame=tb,                         % Any extra options here
+	showstringspaces=false,
+	columns=fullflexible,
+	keepspaces=true,
+	literate={-}{-}1,				% To avoid problems with hyphen -
+}
+
+
+\makeatletter 
+  \renewcommand\verbatim@font{\normalfont\ttfamily\color{blue}}
+\makeatother
+\begin{document}
+% To fix ' no curve quotation mark
+\newcommand\upquote[1]{\textquotesingle#1\textquotesingle}
+
+\begin{tabular}{p{1.3in}p{6in}}
+\begin{flushleft}
+\noindent \includegraphics[bb = 2.5cm 0cm 10.29cm 9.78cm,scale=0.2]{escudoUnicacuaSolo.eps}
+\end{flushleft} &
+\normalsize \vspace{0.6cm}
+\textsc{Universidad del Cauca}
+
+\textsc{Facultad de Ingeniería Electrónica y Telecomunicaciones}
+
+%\textsc{Maestría en Ingeniería Telemática}
+\textsc{Programa de Ingeniería Electrónica y Telecomunicaciones}
+
+\textsc{Desarrollo de aplicaciones para plataformas ubicuas}
+
+\end{tabular}
+\begin{tabbing}
+\hspace{3cm} \= \hspace{5.3cm} \= \hspace{6cm} \kill
+\textbf{Docente}: \> Juan Pablo Ruiz Rosero			\> \texttt{jpabloruiz@unicauca.edu.co} \\
+\end{tabbing}
+
+\begin{center}
+%\textbf{4. Base de datos en Python}
+\textbf{4. Python y sqlite3}
+\end{center}
+Una base de datos es un conjunto de datos pertenecientes a un mismo contexto y almacenados sistemáticamente para su posterior uso. SQLite  es un sistema de gestión de bases de datos relacional, contenida en una relativamente pequeña  biblioteca escrita en C. SQLite se enlaza con el programa pasando a ser parte integral del mismo, por lo cual no es un servicio independiente. 
+
+
+\begin{enumerate}
+
+\item Desde la consola Linux instale el explorador de base de datos SQLite, SQLite Browser
+
+\begin{verbatim}
+sudo apt-get install sqlitebrowser
+\end{verbatim}
+
+Nota: Para Windows lo puede descargar desde: \url{http://sqlitebrowser.org/}
+
+\item Cree el archivo \verb|testDatabase.py| y copie el siguiente contenido: 
+\begin{lstlisting}[style=myCustomPythonStyle]
+import sqlite3
+conn = sqlite3.connect('example.db3')
+
+c = conn.cursor()
+
+# Create table
+c.execute('''CREATE TABLE students (fecha text, nombre text, apellido text, edad integer)''')
+
+# Insert a row of data
+c.execute("INSERT INTO students VALUES ('2017-09-04','Pedro','Dominguez',30)")
+
+# Save (commit) the changes
+conn.commit()
+
+# Close connection
+conn.close()
+\end{lstlisting}
+
+\item Ejecute el archivo \verb|testDatabase.py| y abra con el programa SQLite Browser el archivo de base de datos \verb|example.db3|. Seleccione la pestaña \verb|Browse data| y encuentre los datos introducidos de Pedro Dominguez.
+
+\item Cree una carpeta llamada \verb|guia04| y copie el archivo adjunto \verb|dbFunctions.py|
+
+\item Cree un archivo llamado \verb|globals.py| donde guardará las variables y constantes globales de este ejercicio.
+\begin{lstlisting}[style=myCustomPythonStyle]
+LOCATION_X = 1
+LOCATION_Y = 2
+GATEWAY_ID = "User_Laptop"
+\end{lstlisting}
+Nota: Las constantes se escriben en mayúsculas y las variables en minúsculas. Remplace la \verb|LOCATION_X| y \verb|LOCATION_Y| con la ubicación de su puesto respecto a la puerta. 
+
+\item Cree un archivo llamado \verb|createTable.py| desde donde importe la librería dbFunctions y llame a la función \verb|createTable()| así:
+\begin{lstlisting}[style=myCustomPythonStyle]
+import dbFunctions
+
+dbFunctions.createTable()
+\end{lstlisting}
+Ejecute este archivo y corrobore que se halla creado el archivo de base de datos \verb|sensors.db3|
+
+\item Cree el archivo \verb|insertValue.py| mediante el cual inserte el el SensorID = 'sensor1' a la base de datos con el tiempo actual:
+\begin{lstlisting}[style=myCustomPythonStyle]
+import time
+import dbFunctions
+
+sensor = {}
+sensor["date"] = time.time()
+sensor["sensorID"] = "sensor8"
+
+dbFunctions.insertSensorEvent(sensor)
+\end{lstlisting}
+
+\item Cree el archivo \verb|insertValues.py| el cual mediante la función \verb|raw_input()| y un while loop inserte múltiples sensorID con el tiempo actual, hasta que se inserte el sensorID "fin".
+
+\item Cree el archivo \verb|getAllEvents.py| el cual usando la función \verb|dbFunctions.getAllEvents()| imprima mediante un ciclo for todos los eventos de sensores registrados en la base de datos.
+
+\item Cree el archivo \verb|getAllEventsFrom.py| el cual usando la función \verb|dbFunctions.getAllEventsFrom()| imprima mediante un ciclo for todos los eventos de sensores registrados en la base de datos, del "sensor1".
+
+\item Cree el archivo \verb|ConvertCSVtoDB.py| con el cual lea los datos del archivo \verb|dataPopayan.csv| y los guarde en el archivo base de datos \verb|popayan.db3|. Añada funciones a la librería \verb|dbFunctions.db| si lo considera necesario. 
+
+\item Cree el archivo \verb|MaxTemperatureDate.py| el cual abra la información de la base de datos \verb|popayan.db3| e imprima la fecha y la temperatura correspondiente a la máxima registrada. 
+
+
+\end{enumerate}
+\end{document} 

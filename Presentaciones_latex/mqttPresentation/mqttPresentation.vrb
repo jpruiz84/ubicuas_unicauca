@@ -1,0 +1,13 @@
+\frametitle{Python example}
+Generate a Python application that send a json message every time that the computer detects a beacon with more than
+\begin{itemize}
+	\item Message structure: \newline\verb|{'BeaconMAC': '11:22:33:44:55:66', 'time': '2017/09/27, 18:45:55'}|
+	\item Use this example to send a message on python:
+	\begin{verbatim}
+	import paho.mqtt.publish as publish
+
+	# This is the Publisher
+	publish.single("/unicauca", "message", hostname="iot.eclipse.org")
+
+	\end{verbatim}
+\end{itemize}

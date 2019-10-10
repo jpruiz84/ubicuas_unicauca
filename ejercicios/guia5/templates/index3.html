@@ -1,0 +1,11 @@
+<html>
+  <head>
+    <title>{{ dataPage.title }} - microblog</title>
+  </head>
+  <body>
+    <h1>Usuarios:</h1>
+    {% for user in dataPage.users %}
+    <div><p>{{ user.nombre }} {{ user.apellidos }}, edad: {{ user.edad }} </p></div>
+    {% endfor %}
+  </body>
+</html>

@@ -1,0 +1,225 @@
+\documentclass[10pt,letterpaper]{article}
+
+\usepackage{amsmath}
+
+\usepackage[T1]{fontenc} 
+\usepackage[utf8x]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}% Include figure files
+
+\usepackage{fancyvrb,xcolor}
+
+%%% Margins
+\oddsidemargin=-0.54cm
+\textwidth=17.6cm
+\topmargin=-2.54cm
+\headheight=0cm
+\headsep=2cm
+\textheight=23.8cm
+
+\makeatletter
+\renewcommand\section{\@startsection{section}{1}{-15pt}{20pt}{10pt}{\textsc}}
+\makeatother
+
+\makeatletter
+\renewcommand\subsection{\@startsection{subsection}{2}{0pt}{0pt}{0pt}{\textit}}
+\makeatother
+
+
+\makeatletter 
+  \renewcommand\verbatim@font{\normalfont\ttfamily\color{blue}}
+\makeatother
+\begin{document}
+
+\begin{tabular}{p{1.3in}p{6in}}
+\begin{flushleft}
+\noindent \includegraphics[bb = 2.5cm 0cm 10.29cm 9.78cm,scale=0.2]{escudoUnicacuaSolo.eps}
+\end{flushleft} &
+\normalsize \vspace{0.6cm}
+\textsc{Universidad del Cauca}
+
+\textsc{Facultad de Ingeniería Electrónica y Telecomunicaciones}
+
+%\textsc{Maestría en Ingeniería Telemática}
+\textsc{Programa de Ingeniería Electrónica y Telecomunicaciones}
+
+
+\textsc{Desarrollo de aplicaciones para plataformas ubicuas}
+
+\end{tabular}
+\begin{tabbing}
+\hspace{3cm} \= \hspace{5.3cm} \= \hspace{6cm} \kill
+\textbf{Docente}: \> Juan Pablo Ruiz Rosero			\> \texttt{jpabloruiz@unicauca.edu.co} \\
+\end{tabbing}
+
+\begin{center}
+%\textbf{3. Linea de comandos Linux}
+\textbf{3. Introducción a Linux}
+\end{center}
+
+Linux es un sistema operativo (OS) libre para computadores y sistemas embebidos. Su componente base es el Kernel de Linux, el cual la base para sistemas operativos como Debian, Ubuntu, Fedora, Chrome OS o Android. Igualmente su portabilidad lo ha hecho popular para entornos como DVR, network routers, consolas de vídeo juegos y relojes inteligentes. En la actualidad los sistemas Linux son los OS predilectos para  pasarelas o gateways en entornos ubicuos y dispositivos del Internet de las Cosas. 
+
+\begin{enumerate}
+
+\item Abra la consola de Linux con las las teclas Ctrl + Alt + T
+
+\item Determine en que carpeta esta localizado con el comando: 
+\begin{verbatim}
+pwd
+\end{verbatim}
+
+\item Imprima un hola mundo desde la consola de Linux mediante el comando echo
+\begin{verbatim}
+echo "Hola mundo"
+\end{verbatim}
+
+\item Con el comando echo también puede imprimir las variables de entorno de Linux como el PATH, el cual contiene la ruta de los ejecutables a los que usted puede acceder en Linux. 
+\begin{verbatim}
+echo "Este es el path de Linux: $PATH"
+\end{verbatim}
+
+\item La carpeta \verb|/| es la carpeta raíz de Linux, y la carpeta \verb|/home/nombreUsuario| es la carpeta principal de su usuario. Valla a la carpeta raíz y luego a la carpeta principal de su usuario con el comando change directory \verb|cd|
+\begin{verbatim}
+cd /
+cd 
+\end{verbatim}
+
+Nota: el comando \verb|cd| sin ningún argumento lo lleva a la carpeta raíz, puede verificarlo ejecutando el comando "pwd"
+
+
+\item Liste los archivos de la carpeta raiz y de usuario en Linux con el comando: \verb|ls|
+
+\item Cree una carpeta en su carpeta de usuario llamada test1
+\begin{verbatim}
+mkdir test1
+\end{verbatim}
+
+\item Entre a esta carpeta y escriba su nombre dentro del archivo estudiantes.txt
+\begin{verbatim}
+cd test1
+echo "Juan Pablo Ruiz" >> estudiantes.txt
+\end{verbatim}
+Nota: el prefijo \verb|>>| permite enviar la salida de un comando (en este caso echo) a un archivo (en este caso estudiantes). Si utiliza \verb|>>| el archivo destino conserva el contenido anterior y añade el nuevo contenido. Si utiliza \verb|>| el contenido anterior es descartado. 
+
+\item Utilice el siguiente comando para ver el contenido del archivo estudiantes.txt
+\begin{verbatim}
+cat estudiantes.txt
+\end{verbatim}
+Nota: recuerde que puede utilizar la tecla TAB para auto completar comandos o archivos en la consola. 
+
+\item Agregue con el comando \verb|echo| el nombre de 3 de sus compañeros al archivo \verb|estudiantes.txt|
+
+\item Cree un archivo \verb|profesores.txt|, donde mediante el comando \verb|echo| introduzca el nombre de 3 de sus profesores.
+
+\item Cree un archivo \verb|familiares.txt|, donde mediante el comando \verb|echo| introduzca el nombre de 3 de sus familiares.
+
+\item Cree un archivo \verb|amigos.txt|, donde mediante el comando \verb|echo| introduzca el nombre de 3 de sus amigos.
+
+\item Utilice el comando \verb|grep| junto con el nombre de uno de sus amigos, para saber en cual de los archivos de la carpeta test1 esta ese nombre. 
+\begin{verbatim}
+grep "Juan Pablo" *
+\end{verbatim}
+Nota: el asterisco indica que buscará en todos los archivos de la carpeta actual.
+
+\item Cree una copia del archivo \verb|amigos.txt|, con el comando \verb|cp| (de copy)
+\begin{verbatim}
+cp amigos.txt copiaAmigos.txt
+\end{verbatim}
+
+\item Elimine el archivo \verb|amigos.txt| con el comando \verb|rm| (de remove)
+\begin{verbatim}
+rm amigos.txt
+\end{verbatim}
+
+\item Restaure el archivo \verb|amigos.txt| de su copia \verb|copiaAmigos.txt| con el comando \verb|mv| (de mover)
+\begin{verbatim}
+mv copiaAmigos.txt amigos.txt
+\end{verbatim}
+
+\item El comando \verb|head -n| permite imprimir las primeras n lineas de un archivo. Utilice este comando para copiar el primer nombre el archivo \verb|estudiatnes.txt| al archivo \verb|amigos.txt|
+\begin{verbatim}
+head -1 estudiantes.txt >> amigos.txt
+\end{verbatim}
+
+\item El comando \verb|tail -n| permite imprimir las ultimas n lineas de un archivo. Utilice este comando para copiar los dos últimos nombres el archivo \verb|familiares.txt| al archivo \verb|amigos.txt|
+\begin{verbatim}
+tail -2 familiares.txt >> amigos.txt
+\end{verbatim}
+
+\textbf{Comandos de red:}
+
+\item Haga un ping a la dirección 8.8.8.8 para saber si tiene acceso internet, salga del comando con las teclas Ctrl+C
+\begin{verbatim}
+ping 8.8.8.8
+\end{verbatim}
+
+
+\item Haga un ping a la dirección 8.8.8.8 por 5 veces y guarde el reporte en el archivo \verb|pingReport.txt|
+\begin{verbatim}
+ping 8.8.8.8 -c 5 >> pingReport.txt
+\end{verbatim}
+
+\item Visualice el resultado del ping con el comando: \verb|cat pingReport.txt|
+
+\item Liste sus interfaces de red con el comando \verb|ifconfig|, y encuentre su dirección IP local.
+
+\item Liste las interfaces de red y filtre las direcciones de red IPv4 con la ayuda del comando \verb|grep|
+\begin{verbatim}
+ifconfig | grep "inet addr"
+\end{verbatim}
+
+
+\item Liste las redes inalámbricas con el comando \verb|iwlist scan|
+
+\item Filtre solo los SSID de las redes inalámbricas con la ayuda del comando \verb|grep|
+\begin{verbatim}
+iwlist scan | grep SSID
+\end{verbatim}
+
+\item Abra un socket TCP en el purto TCP con el comando \verb|netcat|. Puede terminar el servidor con las teclas Ctrl+C. Anteponga \verb|sudo| para ejecutar netcat como super usuario con permisos de administrador. Teclee su clave de Linux cuando la solicite. 
+\begin{verbatim}
+sudo netcat -k -l -p 1010
+\end{verbatim}
+
+\item Desde el computador de un compañero, envíe un mensaje a la dirección IP de su computador donde tiene abierto el socket (remplace 192.168.1.10 por la dirección IP del computador donde esta abierto el socket).
+\begin{verbatim}
+echo "Hola por IP" > /dev/tcp/192.168.1.10/1010
+\end{verbatim}
+
+\item Vuelva a abrir el socket en su computador, y desde el computador de su compañero envié el contenido del archivo \verb|amigos.txt|
+\begin{verbatim}
+cat amigos.txt > /dev/tcp/192.168.1.10/1010
+\end{verbatim}
+
+
+\textbf{Linux bash scripts:}
+
+\item Instale python2.7 mediante el comando \verb|apt-get|
+\begin{verbatim}
+sudo apt-get install python2.7
+\end{verbatim}
+
+\item Cree y edite un archivo script utilizando el editor de texto \verb|pluma| para Ubuntu Mate o \verb|gedit| para Ubuntu
+\begin{verbatim}
+gedit script1.sh
+\end{verbatim}
+
+\item En el archivo \verb|script1.sh| cree una serie de comandos que mediante el comando \verb|echo| linea a linea valla creando un script de python y que lo ejecute al final.
+\begin{verbatim}
+echo "name = 'Juan'" >> pythonCode.py
+echo "print('Hola ' + name)" >> pythonCode.py
+python pythonCode.py
+\end{verbatim}
+
+\item Ejecute el scritp \verb|script1.sh| con el comando \verb|sh|
+\begin{verbatim}
+sh script1.sh
+\end{verbatim}
+
+\item Con los comandos \verb|ls| y \verb|cat| cerciore que el script halla creado el archivo \verb|pythonCode.py| con su contenido correcto. 
+
+
+
+
+\end{enumerate}
+\end{document} 

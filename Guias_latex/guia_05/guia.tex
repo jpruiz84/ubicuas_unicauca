@@ -1,0 +1,296 @@
+\documentclass[10pt,letterpaper]{article}
+
+\usepackage{amsmath}
+
+\usepackage[T1]{fontenc} 
+\usepackage[utf8x]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}% Include figure files
+
+\usepackage{fancyvrb,xcolor}
+\usepackage{upquote,textcomp}
+
+%%% Margins
+\oddsidemargin=-0.54cm
+\textwidth=17.6cm
+\topmargin=-2.54cm
+\headheight=0cm
+\headsep=2cm
+\textheight=23.8cm
+
+\makeatletter
+\renewcommand\section{\@startsection{section}{1}{-15pt}{20pt}{10pt}{\textsc}}
+\makeatother
+
+\makeatletter
+\renewcommand\subsection{\@startsection{subsection}{2}{0pt}{0pt}{0pt}{\textit}}
+\makeatother
+
+\usepackage{hyperref} % for urls
+
+
+% Default fixed font does not support bold face
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{8} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{8}  % for normal
+
+% Custom colors
+\usepackage{color}
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+\definecolor{deepgray}{rgb}{0.5,0.5,0.5}
+
+\usepackage{listings}
+
+\lstdefinestyle{myCustomPythonStyle}{
+	language=Python,
+	basicstyle=\linespread{1}\small,
+	otherkeywords={self},             % Add keywords here
+	keywordstyle=\ttb\color{deepblue},
+	emph={MyClass,__init__},          % Custom highlighting
+	emphstyle=\ttm\color{deepred},    % Custom highlighting style
+	commentstyle=\ttm\color{deepgray},
+	stringstyle=\color{deepgreen},
+	frame=tb,                         % Any extra options here
+	showstringspaces=false,
+	columns=fullflexible,
+	keepspaces=true,
+	literate={-}{-}1,				% To avoid problems with hyphen -
+}
+
+
+
+\makeatletter 
+  \renewcommand\verbatim@font{\normalfont\ttfamily\color{blue}}
+\makeatother
+
+
+\begin{document}
+% To fix ' no curve quotation mark
+\newcommand\upquote[1]{\textquotesingle#1\textquotesingle}
+
+
+
+\begin{tabular}{p{1.3in}p{6in}}
+\begin{flushleft}
+\noindent \includegraphics[bb = 2.5cm 0cm 10.29cm 9.78cm,scale=0.2]{escudoUnicacuaSolo.eps}
+\end{flushleft} &
+\normalsize \vspace{0.6cm}
+\textsc{Universidad del Cauca}
+
+\textsc{Facultad de Ingeniería Electrónica y Telecomunicaciones}
+
+%\textsc{Maestría en Ingeniería Telemática}
+\textsc{Programa de Ingeniería Electrónica y Telecomunicaciones}
+
+\textsc{Desarrollo de aplicaciones para plataformas ubicuas}
+
+\end{tabular}
+\begin{tabbing}
+\hspace{3cm} \= \hspace{5.3cm} \= \hspace{6cm} \kill
+\textbf{Docente}: \> Juan Pablo Ruiz Rosero			\> \texttt{jpabloruiz@unicauca.edu.co} \\
+\end{tabbing}
+
+\begin{center}
+%\textbf{5. Web framework}
+\textbf{5. Python Flask web framework}
+\end{center}
+Una aplicación web es un programa cliente-servidor, con el cual los usuarios pueden acceder a ciertas herramientas disponibles en un servidor. Un web framework es un software framework diseñado para soportar el desarrollo de aplicaciones web. Flask es un micro web framework escrito en Python, que no requiere herramientas o librerías particulares.
+
+
+\begin{enumerate}
+
+\item Instale flask:
+
+Desde Windows, acceda a la carpeta \verb|C:\Python27\Scripts| y luego instale con pip, el paquete flask:
+\begin{verbatim}
+cd C:\Python27\Scripts
+pip install flask
+\end{verbatim}
+
+Desde Ubuntu, instale primero python-pip y luego flask:
+\begin{verbatim}
+sudo apt-get install python-pip
+sudo pip install flask
+\end{verbatim}
+
+\item Cree la carpeta guia5 donde copie los archivos adjuntos: 
+\begin{itemize}
+\item insertValues.py
+\item dbFunctions.py
+\item globals.py
+\item dataWeather.csv
+\end{itemize}
+
+\item Cree el archivo app1.py con el siguiente contenido, el cual se creerá una aplicación web que retorna un saludo de hola mundo. 
+\begin{lstlisting}[style=myCustomPythonStyle]
+from flask import Flask
+app = Flask(__name__)  # Create the object app from Flask
+
+@app.route("/")  # For app, we are going to route the home page
+def main():      # This python function is routed to home page
+    return "Hola mundo, flask"
+
+if __name__ == "__main__": # If this file is run directly (not imported)
+    app.run()              # Start the web server
+\end{lstlisting}
+
+\item Ejecute el script app1.py
+\begin{verbatim}
+python app1.py
+\end{verbatim}
+
+\item En su navegador web entre a la dirección \url{http://127.0.0.1:5000}, si el mensaje de esta página es \textit{Hola mundo, flask} su aplicación web esta funcionando correctamente.
+
+\item Detenga la aplicación web app1.py desde la consola donde se este ejecutando la misma, mediante las teclas \verb|Ctrl+C|. Esto liberará el puerto 5000 para la ejecución de las siguientes aplicaciones web. 
+
+\newpage
+\item Cree un archivo app2.py que defina un diccionario con una serie de datos los cuales serán presentados en una página web mediante el template HTML definido en index2.html: 
+\begin{lstlisting}[style=myCustomPythonStyle]
+from flask import Flask, render_template
+app = Flask(__name__)
+
+@app.route("/")
+def main():
+    dataPage = {}
+    dataPage["title"] = "Web application 2"
+    dataPage["nombre"] = "Marcos"
+    dataPage["apellidos"] = "Torres"
+    dataPage["edad"] = 30
+
+    return render_template('index2.html',dataPage=dataPage)
+
+if __name__ == "__main__":
+    app.run()
+\end{lstlisting}
+
+\item Dentro de la carpeta \verb|guia5| cree la carpeta \verb|templates|. Dentro de la carpeta \verb|templates| cree el template index2.html con el siguiente contenido
+\begin{lstlisting}[language=html,basicstyle=\footnotesize,frame=tb,columns=fullflexible]
+<html>
+  <head>
+    <title>{{ dataPage.title }} - microblog</title>
+  </head>
+  <body>
+      <h1>Datos de usuario:</h1>
+      <p>Nombre: {{ dataPage.nombre }}</p>
+      <p>Apellidos: {{ dataPage.apellidos }}</p>
+      <p>Edad: {{ dataPage.edad }}</p>
+  </body>
+</html>
+\end{lstlisting}
+
+\item Ejecute el script app2.py y en su navegador web entre a la dirección \url{http://127.0.0.1:5000}, detenga la aplicación web al finalizar. 
+
+\newpage
+\item Cree el archivo app3.py en donde, mediante un diccionario, se defina el título de la página y una lista con los nombres, apellidos y edades de 3 usuarios: 
+\begin{lstlisting}[style=myCustomPythonStyle]
+from flask import Flask, render_template
+app = Flask(__name__)
+
+@app.route("/")
+def main():
+    dataPage = {}
+    dataPage["title"] = "Web page 2"
+    dataPage["users"] = []
+
+    user = {'nombre' : 'Julio', 'apellidos': 'Rodriguez','edad' : 19}
+    dataPage["users"].append(user)
+
+    user = {'nombre' : 'Roberto', 'apellidos': 'Contreras','edad' : 20}
+    dataPage["users"].append(user)
+
+    user = {'nombre' : 'Mario', 'apellidos': 'Marquez','edad' : 21}
+    dataPage["users"].append(user)
+
+    return render_template('index3.html',dataPage=dataPage)
+
+if __name__ == "__main__":
+    app.run()
+\end{lstlisting}
+
+\item Dentro de la carpeta \verb|templates| cree el template index3.html donde mediante un ciclo for se impriman los datos de los usuarios registrados en app3.py
+
+\begin{lstlisting}[language=html,basicstyle=\footnotesize,frame=tb,columns=fullflexible]
+<html>
+  <head>
+    <title>{{ dataPage.title }} - microblog</title>
+  </head>
+  <body>
+    <h1>Usuarios:</h1>
+    {% for user in dataPage.users %}
+    <div><p>{{ user.nombre }} {{ user.apellidos }}, edad: {{ user.edad }} </p></div>
+    {% endfor %}
+  </body>
+</html>
+\end{lstlisting}
+
+\item Ejecute el script app3.py y en su navegador web entre a la dirección \url{http://127.0.0.1:5000}, detenga la aplicación web al finalizar. 
+
+
+
+\newpage
+\item Cree el archivo app4.py en donde mediante la función \verb|dbFunctions.getAllEvents()| del archivo dbFunctions.py adjunto, se lean todos los eventos registrados en los sensores de su base de datos de la guía anterior \verb|sensors.db3|. Igualmente, cree en la lista \verb|sensorEvents| un nuevo key \verb|"dateHum"| para almacenar la fecha con datos humanamente leíbles:
+
+\begin{lstlisting}[style=myCustomPythonStyle]
+from flask import Flask, render_template
+import dbFunctions
+import time
+
+app = Flask(__name__)
+
+@app.route("/")
+def main():
+    sensorEvents = dbFunctions.getAllEvents()
+    for event in sensorEvents:
+        event["dateHum"] = time.strftime("%Z - %Y/%m/%d, %H:%M:%S", time.localtime(event["date"]))
+
+    return render_template('index4.html', sensorEvents=sensorEvents)
+
+if __name__ == "__main__":
+    app.run()
+\end{lstlisting}
+
+\item Dentro de la carpeta \verb|templates| cree el template index4.html donde mediante un ciclo for se impriman los datos de los eventos de los sensores. 
+
+\begin{lstlisting}[language=html,basicstyle=\footnotesize,frame=tb,columns=fullflexible]
+<html>
+  <head>
+    <title>Eventos sensores</title>
+  </head>
+  <body>
+    <h1>Eventos:</h1>
+    {% for event in sensorEvents %}
+    <div><p>{{ event.dateHum }}, {{ event.sensorID }} </p></div>
+    {% endfor %}
+  </body>
+</html>
+\end{lstlisting}
+
+\item Ejecute el script app4.py y en su navegador web entre a la dirección \url{http://127.0.0.1:5000}, detenga la aplicación web al finalizar. 
+
+\item Añada otro servicio a la aplicación app4.py, el cual utilice el sensorID ingresado en la dirección de la página web para mostrar los eventos solo de dicho sensor:
+
+\begin{lstlisting}[style=myCustomPythonStyle]
+@app.route("/sensor/<sensorID>")   # Get <sensorID> as input variable for the function sensor
+def sensor(sensorID):
+    sensorEvents = dbFunctions.getAllEventsFrom(sensorID)
+    for event in sensorEvents:
+        event["dateHum"] = time.strftime("%Z - %Y/%m/%d, %H:%M:%S", time.localtime(event["date"]))
+
+    return render_template('index4.html', sensorEvents=sensorEvents)
+\end{lstlisting}
+
+\item Ejecute el script app4.py y en su navegador web entre a la dirección \url{http://127.0.0.1:5000/sensor/sensor1}, remplace sensor1 por diversos sensores que tenga en su base de datos, no detenga la aplicación web. 
+
+\item Ejecute el script adjunto insertValues.py, inserte 3 sensores iguales y 3 diferentes. Corrobore en la aplicación web que estos nuevos sensores estén reportados. 
+
+\item Detenga la aplicación web. 
+
+\item Cree el archivo \verb|ConvertWeatherCSVtoDB.py| con el cual lea los datos del archivo \verb|dataWeather.csv| y los guarde en el archivo base de datos \verb|dataWeather.db3|. Añada funciones a la librería \verb|dbFunctions.db| si lo considera necesario. 
+
+\item Cree una aplicación web \verb|app5.py| y un template \verb|index5.html| la cual al acceder a la dirección  \\ \url{http://127.0.0.1:5000} despliegue los datos climáticos de todas las ciudades, y al acceder a la dirección \\ \url{http://127.0.0.1:5000/ciudad/Popayan} despliegue los datos climáticos de la ciudad Popayán o de la ciudad que se introduzca en la dirección web. 
+
+
+
+\end{enumerate}
+\end{document} 

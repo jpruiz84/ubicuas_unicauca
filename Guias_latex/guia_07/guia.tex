@@ -1,0 +1,147 @@
+\documentclass[10pt,letterpaper]{article}
+
+\usepackage{amsmath}
+
+\usepackage[T1]{fontenc} 
+\usepackage[utf8x]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}% Include figure files
+
+\usepackage{fancyvrb,xcolor}
+\usepackage{upquote,textcomp}
+
+%%% Margins
+\oddsidemargin=-0.54cm
+\textwidth=17.6cm
+\topmargin=-2.54cm
+\headheight=0cm
+\headsep=2cm
+\textheight=23.8cm
+
+\makeatletter
+\renewcommand\section{\@startsection{section}{1}{-15pt}{20pt}{10pt}{\textsc}}
+\makeatother
+
+\makeatletter
+\renewcommand\subsection{\@startsection{subsection}{2}{0pt}{0pt}{0pt}{\textit}}
+\makeatother
+
+\usepackage{hyperref} % for urls
+
+
+% Default fixed font does not support bold face
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{8} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{8}  % for normal
+
+% Custom colors
+\usepackage{color}
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+\definecolor{deepgray}{rgb}{0.5,0.5,0.5}
+
+\usepackage{listings}
+
+\lstdefinestyle{myCustomPythonStyle}{
+	language=Python,
+	basicstyle=\linespread{1}\small,
+	otherkeywords={self},             % Add keywords here
+	keywordstyle=\ttb\color{deepblue},
+	emph={MyClass,__init__},          % Custom highlighting
+	emphstyle=\ttm\color{deepred},    % Custom highlighting style
+	commentstyle=\ttm\color{deepgray},
+	stringstyle=\color{deepgreen},
+	frame=tb,                         % Any extra options here
+	showstringspaces=false,
+	columns=fullflexible,
+	keepspaces=true,
+	literate={-}{-}1,				% To avoid problems with hyphen -
+}
+
+
+
+\makeatletter 
+  \renewcommand\verbatim@font{\normalfont\ttfamily\color{blue}}
+\makeatother
+
+
+\begin{document}
+% To fix ' no curve quotation mark
+\newcommand\upquote[1]{\textquotesingle#1\textquotesingle}
+
+
+
+\begin{tabular}{p{1.3in}p{6in}}
+\begin{flushleft}
+\noindent \includegraphics[bb = 2.5cm 0cm 10.29cm 9.78cm,scale=0.2]{escudoUnicacuaSolo.eps}
+\end{flushleft} &
+\normalsize \vspace{0.6cm}
+\textsc{Universidad del Cauca}
+
+\textsc{Facultad de Ingeniería Electrónica y Telecomunicaciones}
+
+%\textsc{Maestría en Ingeniería Telemática}
+\textsc{Programa de Ingeniería Electrónica y Telecomunicaciones}
+
+\textsc{Desarrollo de aplicaciones para plataformas ubicuas}
+
+\end{tabular}
+\begin{tabbing}
+\hspace{3cm} \= \hspace{5.3cm} \= \hspace{6cm} \kill
+\textbf{Docente}: \> Juan Pablo Ruiz Rosero			\> \texttt{jpabloruiz@unicauca.edu.co} \\
+\end{tabbing}
+
+\begin{center}
+\textbf{7. Manejo de inventario por beacons BLE}
+\end{center}
+Esta guía tiene como objetivo el desarrollo de una aplicación web y un servicio capaz de gestionar el inventario de equipos de un laboratorio. 
+
+
+\section{Entradas}
+\begin{itemize}
+\item Un archivo csv denominado \verb|beaconsRelations.csv|, el cual contiene la dirección MAC de los beacons relacionada con el nombre de un equipo de laboratorio. \\
+\begin{center}
+\begin{tabular}{|l|l|}
+\hline
+\textbf{BeaconMAC} & \textbf{Equipo} \\ \hline
+C5:F8:14:9F:25:D2  & Impresora 1     \\ \hline
+DD:EE:CC:74:3B:DA  & Computador 1    \\ \hline
+C1:3A:40:DF:EE:09  & Parlantes 1    \\ \hline
+E9:2D:B1:8D:2A:9D  & Portatil 1    \\ \hline
+\end{tabular}
+
+\end{center}
+\item Escaneo de beacons BLE en intervalos de 10 segundos, con RSSI mayor o igual a -50dBm.
+\end{itemize}
+
+\section{Salidas}
+\begin{itemize}
+\item Una base de datos denominada \verb|eventos.db3| en donde se almacenen los eventos de entrada y salida de equipos, de la siguiente manera: \\
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Nombre equipo} & \textbf{Evento} & \textbf{Fecha y hora} \\ \hline
+Impresora 1            & Salida          & 2017/09/11, 16:00:36  \\ \hline
+Computador 2           & Entrada         & 2017/09/14, 16:00:36   \\ \hline
+\end{tabular}
+\end{center}
+
+\item Una aplicación web con los siguientes servicios:
+\begin{itemize}
+\item Consulta de todos los eventos mediante la dirección web \url{http://127.0.0.1:5000}
+\item Consulta de todos los eventos de un día determinado mediante la url\\ \url{http://127.0.0.1:5000/fecha/2017_09_13}\\
+Nota: formato de fecha año\_mes\_día
+\item Consulta de todos los eventos de de un equipo determinado mediante la url\\ \url{http://127.0.0.1:5000/equipo/Impresora_1}\\
+Nota: En la url el usuario remplaza los espacios por caracteres. 
+\item Consulta del último evento de un equipo mediante la url\\ \url{http://127.0.0.1:5000/lastEvent/equipo/Impresora_1}\\
+\item Consulta de equipos presentes (dentro del alcance BLE) mediante la url\\ \url{http://127.0.0.1:5000/presentes}\\
+\item Consulta de equipos ausentes (fuera del alcance BLE) mediante la url\\ \url{http://127.0.0.1:5000/ausentes}\\
+\end{itemize}
+
+\end{itemize}
+
+
+
+
+
+\end{document} 
